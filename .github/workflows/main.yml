@@ -1,39 +1,24 @@
-name: Build APK
+name: Build APK Muted
 
 on:
-  workflow_dispatch: # يتيح لك تشغيل البناء يدوياً في أي وقت بضغطة زر
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04 # بيئة مستقرة متوافقة بالكامل
 
     steps:
-    - name: Checkout code
+    - name: Checkout Source Code
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    # 🚀 الاستعانة بالأكشن الرسمي الجاهز والمقفل أمنياً وبرمجياً لبناء تطبيقات Kivy
+    - name: Build Android APK with Buildozer Action
+      uses: ArtemSBulgakov/buildozer-action@v1
       with:
-        python-version: '3.10'
+        command: buildozer android debug
+        buildozer_version: stable
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblzma-dev libreadline-dev libncursesw5-dev libffi-dev uuid-dev
-        sudo apt-get install -y openjdk-17-jdk unzip zip ccache autoconf libtool pkg-config
-
-    - name: Install Buildozer and Cython
-      run: |
-        pip install --upgrade pip
-        pip install buildozer cython==0.29.36
-
-    - name: Build with Buildozer
-      run: |
-        yes | buildozer android debug
-      env:
-        GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g"
-
-    - name: Upload APK Artifact
+    - name: Upload Finished APK
       uses: actions/upload-artifact@v4
       with:
         name: calculator-apk
