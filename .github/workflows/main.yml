@@ -27,10 +27,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblzma-dev libreadline-dev libncursesw5-dev libffi-dev uuid-dev
         sudo apt-get install -y openjdk-17-jdk unzip zip ccache autoconf libtool pkg-config
+        # حزم إضافية ضرورية لبناء مكتبة numpy على أندرويد
+        sudo apt-get install -y gfortran libblas-dev liblapack-dev
 
     - name: Install Buildozer and Cython
       run: |
         pip install --upgrade pip setuptools virtualenv
+        # تثبيت الإصدار المستقر والآمن المتوافق مع numpy و kivy
         pip install "cython<3.0.0" buildozer
 
     - name: Run Buildozer Directly
