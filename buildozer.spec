@@ -5,15 +5,18 @@ package.domain = org.test
 source.dir = .
 source.include_exts = py,png,jpg
 version = 0.1
-requirements = python3,kivy==2.3.0
 
-# 🛡️ الإعدادات الذهبية للتوافقية والاستقرار
+# 💡 تم تعديل المتطلبات لنسخة مجربة ومستقرة بدون تضارب
+requirements = python3,kivy
+
+# 🛡️ إعدادات التوافق القياسية
 android.api = 33
 android.minapi = 21
-android.ndk = 25b
+android.ndk_path = 
+android.sdk_path = 
 android.private_storage = True
 
 orientation = portrait
 fullscreen = 0
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = arm64-v8a
 android.allow_backup = True
