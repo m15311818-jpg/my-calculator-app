@@ -1,22 +1,24 @@
 [app]
-title = My Calculator
-package.name = mycalculator
+title = AI Scientific Calculator
+package.name = aicalculator
 package.domain = org.test
 source.dir = .
 source.include_exts = py,png,jpg
-version = 0.1
+version = 1.0
 
-# 💡 تم تعديل المتطلبات لنسخة مجربة ومستقرة بدون تضارب
-requirements = python3,kivy
+# 🛡️ المكتبات المطلوبة: أضفنا numpy للعمليات الرهيبة، ومكتبات الكاميرا والـ requests للذكاء الاصطناعي
+requirements = python3,kivy,numpy,requests
 
-# 🛡️ إعدادات التوافق القياسية
+# 📸 إضافة الأذونات الرسمية لفتح الكاميرا وقراءة الملفات على أندرويد
+android.permissions = CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, INTERNET
+
+# 🛡️ إعدادات التوافق القياسية لتعمل على كل الأجهزة (32-bit & 64-bit)
 android.api = 33
 android.minapi = 21
-android.ndk_path = 
-android.sdk_path = 
+android.ndk = 25b
+android.archs = arm64-v8a, armeabi-v7a
 android.private_storage = True
 
 orientation = portrait
 fullscreen = 0
-android.archs = arm64-v8a
 android.allow_backup = True
