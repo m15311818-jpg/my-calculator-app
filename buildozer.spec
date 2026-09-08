@@ -5,10 +5,10 @@ package.domain = org.test
 source.dir = .
 source.include_exts = py,png,jpg
 version = 0.1
-requirements = python3,kivy
+requirements = python3,kivy==2.3.0
 
-# 🛡️ إعدادات التوافق مع إصدارات أندرويد لعام 2026
-android.api = 34
+# 🛡️ الإعدادات الذهبية للتوافقية والاستقرار
+android.api = 33
 android.minapi = 21
 android.ndk = 25b
 android.private_storage = True
