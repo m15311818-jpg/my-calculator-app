@@ -1,4 +1,4 @@
-name: Build APK Direct
+name: Build APK Direct Clean
 
 on:
   workflow_dispatch:
@@ -27,19 +27,22 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblzma-dev libreadline-dev libncursesw5-dev libffi-dev uuid-dev
         sudo apt-get install -y openjdk-17-jdk unzip zip ccache autoconf libtool pkg-config
-        # حزم إضافية ضرورية لبناء مكتبة numpy على أندرويد
-        sudo apt-get install -y gfortran libblas-dev liblapack-dev
 
     - name: Install Buildozer and Cython
       run: |
         pip install --upgrade pip setuptools virtualenv
-        # تثبيت الإصدار المستقر والآمن المتوافق مع numpy و kivy
         pip install "cython<3.0.0" buildozer
+
+    # 🧹 خطوة التنظيف الإجبارية لمنع الـ exit code 1 القديم
+    - name: Clean Previous Builds
+      run: |
+        buildozer android clean
 
     - name: Run Buildozer Directly
       run: |
         yes | buildozer android debug
       env:
+        JAVA_HOME: ${{ env.JAVA_HOME }} # التأكيد على مسار الجافا الصحيح لـ Gradle
         GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g"
 
     - name: Upload Finished APK
