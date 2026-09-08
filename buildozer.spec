@@ -7,7 +7,7 @@ source.include_exts = py,png,jpg
 version = 2.0
 
 # 💡Requirements: أضفنا numpy فقط للعمليات الرياضية المعقدة
-requirements = python3,kivy,numpy
+requirements = python3,kivy
 
 # 🛡️ إعدادات التوافقية الشاملة لجميع الهواتف
 android.api = 33
