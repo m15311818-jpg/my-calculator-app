@@ -1,4 +1,4 @@
-import numpy as np
+import math
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -9,7 +9,6 @@ class ProScientificCalculatorApp(App):
 
     def build(self):
         self.operators = ['/', '*', '+', '-']
-        self.last_was_operator = None
 
         # التنسيق الرئيسي (رأسي)
         main_layout = BoxLayout(
@@ -37,7 +36,6 @@ class ProScientificCalculatorApp(App):
         for row in buttons:
             h_layout = BoxLayout(spacing=5)
             for label in row:
-                # تصنيف الأزرار وتلوينها حسب وظيفتها
                 if label in [
                     'sin',
                     'cos',
@@ -50,13 +48,13 @@ class ProScientificCalculatorApp(App):
                     '(',
                     ')',
                 ]:
-                    btn_color = (0.25, 0.25, 0.3, 1)  # أزرار علمية (رمادي مزرق)
+                    btn_color = (0.25, 0.25, 0.3, 1)  # أزرار علمية
                 elif label in self.operators or label in ['C', 'DEL']:
-                    btn_color = (0.85, 0.45, 0.1, 1)  # أزرار العمليات ومسح (برتقالي)
+                    btn_color = (0.85, 0.45, 0.1, 1)  # أزرار مسح وتحكم
                 elif label == '=':
-                    btn_color = (0.15, 0.65, 0.25, 1)  # زر اليساوي (أخضر)
+                    btn_color = (0.15, 0.65, 0.25, 1)  # يساوي
                 else:
-                    btn_color = (0.2, 0.2, 0.2, 1)  # الأرقام (رمادي غامق)
+                    btn_color = (0.2, 0.2, 0.2, 1)  # الأرقام
 
                 button = Button(
                     text=label, font_size=24, background_color=btn_color
@@ -74,10 +72,8 @@ class ProScientificCalculatorApp(App):
         if button_text == 'C':
             self.solution.text = ''
         elif button_text == 'DEL':
-            # مسح آخر خانة فقط
             self.solution.text = current[:-1]
         elif button_text in ['sin', 'cos', 'tan', 'sqrt', 'log']:
-            # فتح قوس تلقائياً للدوال
             self.solution.text = current + button_text + '('
         elif button_text == '=':
             self.on_solution()
@@ -88,22 +84,18 @@ class ProScientificCalculatorApp(App):
         text = self.solution.text
         if text:
             try:
-                # تحويل الحروف النصية إلى رموز برمجية يفهمها مكتبة numpy
+                # تحويل الحروف النصية إلى دوال يفهمها نظام بايثون الرياضي المدمج
                 expr = text.replace('^', '**')
-                expr = expr.replace('π', 'np.pi')
-                expr = expr.replace('e', 'np.e')
-                expr = expr.replace('sin', 'np.sin')
-                expr = expr.replace('cos', 'np.cos')
-                expr = expr.replace('tan', 'np.tan')
-                expr = expr.replace('sqrt', 'np.sqrt')
-                expr = expr.replace(
-                    'log', 'np.log10'
-                )  # لوغاريتم للأساس 10
+                expr = expr.replace('π', 'math.pi')
+                expr = expr.replace('e', 'math.e')
+                expr = expr.replace('sin', 'math.sin')
+                expr = expr.replace('cos', 'math.cos')
+                expr = expr.replace('tan', 'math.tan')
+                expr = expr.replace('sqrt', 'math.sqrt')
+                expr = expr.replace('log', 'math.log10')
 
-                # حساب المعادلة
-                result = eval(expr, {'np': np})
-
-                # تقريب الناتج لـ 6 أرقام عشرية لمنع الكسور الطويلة المزعجة
+                # حساب المعادلة بأمان باستخدام مكتبة math
+                result = eval(expr, {'math': math})
                 self.solution.text = str(round(result, 6))
             except Exception:
                 self.solution.text = 'Error'
