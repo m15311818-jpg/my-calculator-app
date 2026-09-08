@@ -1,18 +1,15 @@
 [app]
-title = AI Scientific Calculator
-package.name = aicalculator
+title = Pro Scientific Calculator
+package.name = procalculator
 package.domain = org.test
 source.dir = .
 source.include_exts = py,png,jpg
-version = 1.0
+version = 2.0
 
-# 🛡️ المكتبات المطلوبة: أضفنا numpy للعمليات الرهيبة، ومكتبات الكاميرا والـ requests للذكاء الاصطناعي
-requirements = python3,kivy,numpy,requests
+# 💡Requirements: أضفنا numpy فقط للعمليات الرياضية المعقدة
+requirements = python3,kivy,numpy
 
-# 📸 إضافة الأذونات الرسمية لفتح الكاميرا وقراءة الملفات على أندرويد
-android.permissions = CAMERA, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, INTERNET
-
-# 🛡️ إعدادات التوافق القياسية لتعمل على كل الأجهزة (32-bit & 64-bit)
+# 🛡️ إعدادات التوافقية الشاملة لجميع الهواتف
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
