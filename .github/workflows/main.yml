@@ -1,4 +1,4 @@
-name: Build APK Standard
+name: Build APK Direct
 
 on:
   workflow_dispatch:
@@ -17,13 +17,27 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build Android APK with Buildozer
-      uses: ArtemSBulgakov/buildozer-action@v1.2.0
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
-        command: buildozer android debug
-        buildozer_version: stable
-        # تنظيف الكاش القديم لمنع تكرار الخطأ السابق
-        repository_cache: true
+        python-version: '3.10'
+
+    - name: Install System Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblzma-dev libreadline-dev libncursesw5-dev libffi-dev uuid-dev
+        sudo apt-get install -y openjdk-17-jdk unzip zip ccache autoconf libtool pkg-config
+
+    - name: Install Buildozer and Cython
+      run: |
+        pip install --upgrade pip setuptools virtualenv
+        pip install "cython<3.0.0" buildozer
+
+    - name: Run Buildozer Directly
+      run: |
+        yes | buildozer android debug
+      env:
+        GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g"
 
     - name: Upload Finished APK
       uses: actions/upload-artifact@v4
