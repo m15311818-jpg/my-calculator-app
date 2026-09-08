@@ -1,22 +1,29 @@
-name: Build APK Muted
+name: Build APK Standard
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04 # بيئة مستقرة متوافقة بالكامل
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
 
-    # 🚀 الاستعانة بالأكشن الرسمي الجاهز والمقفل أمنياً وبرمجياً لبناء تطبيقات Kivy
-    - name: Build Android APK with Buildozer Action
-      uses: ArtemSBulgakov/buildozer-action@v1
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build Android APK with Buildozer
+      uses: ArtemSBulgakov/buildozer-action@v1.2.0
       with:
         command: buildozer android debug
         buildozer_version: stable
+        # تنظيف الكاش القديم لمنع تكرار الخطأ السابق
+        repository_cache: true
 
     - name: Upload Finished APK
       uses: actions/upload-artifact@v4
